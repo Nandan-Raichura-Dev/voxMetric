@@ -37,9 +37,10 @@
 
       
       <nav class="nav">
-          <a href="#" class="nav-link active">Practice</a>
-          <a href="#" class="nav-link">Progress & Streaks</a>
-        <a href="#" class="nav-link">History</a>
+          <a href="index.html" class="nav-link active">Practice</a>
+          <a href="progress.html" class="nav-link">Progress & Streaks</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="about-us.html" class="nav-link">about-us</a>
       </nav>
 
       <div class="header-actions">
@@ -53,9 +54,55 @@
   </header>
 
 
-  <main class="main-content">
-    <h1 id="pageTitle">Practice Session</h1>
-    <p>Real time speech analytics right inside your browser.</p>
+  <main class="main-content"><!-- main content of web pagee-->
+
+   <div class="practice-container">
+    
+    <!--  live trans box -->
+    <div class="transcript-card">
+      <div class="card-header">
+        <span class="card-title">Live Transcript</span>
+        <span id="wordCountBadge" class="badge
+        ">0 words</span>
+      </div>
+      <div id="transcriptBox" class="transcript-box">
+          <p class="placeholder-text">Click the microphone button below to start speaking...</p>
+      </div>
+    </div>
+
+    <!--recordin cntrl -->
+    <div class="controls-card">
+          <div class="status-bar">
+            <div id="statusBadge" class="status-badge ready">
+              <span class="status-dot"></span>
+          <span id="statusText">Ready to Record</span>
+        </div>
+        <div id="timerDisplay" class="timer">00:00</div>
+      </div>
+
+      <div class="mic-wrapper">
+        <button id="micBtn" class="mic-btn" title="Click to start/stop recording">
+          <svg class="mic-icon" viewBox="0 0 24 24">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" fill="currentColor"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+        </button>
+      </div>
+      <p class="mic-hint">Tap microphone to speak</p>
+    </div>
+
+    
+    <div class="action-wrapper">
+      <button id="testSpeechBtn" class="test-speech-btn" disabled>
+        <span>Test My Speech</span>
+        <svg viewBox="0 0 24 24" class="btn-arrow">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+    
   </main>
 
   <!--footer-->
@@ -80,7 +127,7 @@
         <div class="footer-links">
             <h3>Pages</h3>
             <a href="#">Practice</a>
-            <a href="#">Progress Tracker</a>
+            <a href="progress.html">Progress Tracker</a>
             <a href="#">History</a>
         </div>
 
@@ -98,6 +145,8 @@
         </div>
       </div>
 
+
+
       
       <div class="footer-bottom">
         <p>&copy; 2026 VoxMetric. All rights reserved.</p>
@@ -107,6 +156,6 @@
     </div>
   </footer>
 
-
+<script src="script.js"></script>
 </body>
 </html>
