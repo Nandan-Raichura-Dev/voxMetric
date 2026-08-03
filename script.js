@@ -1,5 +1,6 @@
 
 const micBtn = document.getElementById('micBtn');
+const startBtn=document.getElementById('startBtn');
 const transcriptBox =document.getElementById('transcriptBox');
 const statusBadge =document.getElementById('statusBadge');
 const statusText =document.getElementById('statusText');
@@ -59,13 +60,27 @@ if (SpeechRecognition) {
 // mic button event
 
 micBtn.addEventListener('click', () => {
-    if(!recognition) return;
+    if(!recognition)return;
 
         if(!isRecording){
             startRecording();
         }else{
             stopRecording();
         }
+
+});
+
+startBtn.addEventListener('click',()=>{
+    if(!recognition)return;
+
+    
+        if(!isRecording){
+            startRecording();
+        }else{
+            stopRecording();
+        }
+
+    
 
 });
 
