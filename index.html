@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script type="module">
-
     import { supabase } from './supabase-client.js';
     
     const { data } = await supabase.auth.getSession();
@@ -19,15 +18,12 @@
 </head>
 <body>
 
- 
   <input type="checkbox" id="close-modal-toggle" class="modal-toggle">
 
- 
   <div class="overlay">
     <div class="disclaimer-card">
       <div class="card-top">
         <span class="tag">Audio Tip</span>
-      
         <label for="close-modal-toggle" class="close-x">&times;</label>
       </div>
 
@@ -61,7 +57,7 @@
       <nav class="nav">
         <a href="index.html" class="nav-link active">Practice</a>
         <a href="progress.html" class="nav-link">Progress & Streaks</a>
-        <a href="history.html" class="nav-link">History</a>
+       
         <a href="about-us.html" class="nav-link">about-us</a>
       </nav>
 
@@ -117,6 +113,32 @@
         </button>
       </div>
 
+      <!-- SPEECH ANALYSIS RESULTS CARD -->
+      <div id="resultsCard" class="transcript-card hidden" style="margin-top: 10px;">
+        <div class="card-header">
+          <span class="card-title">SPEECH ANALYSIS RESULTS</span>
+          <span class="badge">Live Stats</span>
+        </div>
+        <div class="analytics-grid" style="grid-template-columns: repeat(4, 1fr); gap: 12px;">
+          <div class="report-card">
+            <span class="report-title">Pacing</span>
+            <div id="wpmValue" class="report-value">0 <span class="unit">WPM</span></div>
+          </div>
+          <div class="report-card">
+            <span class="report-title">Clarity</span>
+            <div id="clarityValue" class="report-value">100%</div>
+          </div>
+          <div class="report-card">
+            <span class="report-title">Pronunciation</span>
+            <div id="pronunciationValue" class="report-value">0%</div>
+          </div>
+          <div class="report-card">
+            <span class="report-title">Fillers</span>
+            <div id="fillerValue" class="report-value">0</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -163,22 +185,18 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
   <script type="module">
-  
-  
-  import { supabase } from './supabase-client.js';
+    import { supabase } from './supabase-client.js';
 
-  const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async function () {
-      
-      await supabase.auth.signOut();
-    
-      window.location.href = 'auth.html';
-    });
-  }
-</script>
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async function () {
+        await supabase.auth.signOut();
+        window.location.href = 'auth.html';
+      });
+    }
+  </script>
 </body>
 </html>

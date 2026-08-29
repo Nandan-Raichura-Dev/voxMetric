@@ -1097,3 +1097,16 @@ test-speech-btn:not(:disabled):hover {
     display: none;
   }
 }
+
+
+/* Display utility helper */
+.hidden {
+  display: none !important;
+}
+
+/* Responsive grid tweak for mobile screens */
+@media (max-width: 640px) {
+  #resultsCard .analytics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
