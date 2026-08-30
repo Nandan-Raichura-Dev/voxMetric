@@ -34,12 +34,12 @@ if (SpeechRecognition) {
     }
 
     fullTranscript = currentText;
-    transcriptBox.innerHTML = `<p>${fullTranscript}</p>`;
+    if (transcriptBox) transcriptBox.innerHTML =`<p>${fullTranscript}</p>`;
 
-    const wordCount = fullTranscript.trim() ? fullTranscript.trim().split(/\s+/).length : 0;
-    wordCountBadge.textContent = `${wordCount} words`;
+    const wordCount =fullTranscript.trim() ? fullTranscript.trim().split(/\s+/).length : 0;
+    if (wordCountBadge) wordCountBadge.textContent = `${wordCount} words`;
 
-    if (wordCount > 0) {
+    if (wordCount > 0 && testSpeechBtn) {
       testSpeechBtn.disabled = false;
     }
   };
@@ -52,8 +52,8 @@ if (SpeechRecognition) {
   alert('Web Speech API is not supported in this browser. Please use Chrome or Edge.');
 }
 
-micBtn.addEventListener('click', toggleRecording);
-startBtn.addEventListener('click', toggleRecording);
+if (micBtn) micBtn.addEventListener('click', toggleRecording);
+if (startBtn) startBtn.addEventListener('click', toggleRecording);
 
 function toggleRecording() {
   if (!recognition) return;
@@ -65,34 +65,34 @@ function toggleRecording() {
 }
 
 function startRecording() {
-  isRecording = true;
-  fullTranscript = '';
+  isRecording =true;
+  fullTranscript ='';
   confidenceScore = 0.9;
   recognition.start();
 
-  micBtn.classList.add('recording');
-  statusBadge.className = 'status-badge recording';
-  statusText.textContent = 'Recording...';
-  transcriptBox.innerHTML = '<p class="placeholder-text">Listening to your voice...</p>';
+  if (micBtn) micBtn.classList.add('recording');
+  if (statusBadge) statusBadge.className = 'status-badge recording';
+  if (statusText) statusText.textContent = 'Recording...';
+  if (transcriptBox) transcriptBox.innerHTML = '<p class="placeholder-text">Listening to your voice...</p>';
 
   secElapsed = 0;
   clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
+  timerInterval =setInterval(() => {
     secElapsed++;
-    const mins = String(Math.floor(secElapsed / 60)).padStart(2, '0');
-    const secs = String(Math.floor(secElapsed % 60)).padStart(2, '0');
-    timerDisplay.textContent = `${mins}:${secs}`;
-  }, 1000);
+    const mins =String(Math.floor(secElapsed / 60)).padStart(2, '0');
+    const secs =String(Math.floor(secElapsed % 60)).padStart(2, '0');
+    if (timerDisplay) timerDisplay.textContent = `${mins}:${secs}`;
+   },1000);
 }
 
 function stopRecording() {
   isRecording = false;
-  recognition.stop();
+  if (recognition) recognition.stop();
   clearInterval(timerInterval);
 
-  micBtn.classList.remove('recording');
-  statusBadge.className = 'status-badge ready';
-  statusText.textContent = 'Paused / Ready';
+  if (micBtn) micBtn.classList.remove('recording');
+  if (statusBadge) statusBadge.className = 'status-badge ready';
+  if (statusText) statusText.textContent = 'Paused / Ready';
 }
 
 // Algorithm Analysis Engine
@@ -118,31 +118,45 @@ function analyzeSpeech(transcript, durationSec, confidence) {
 }
 
 // Process & Save
-testSpeechBtn.addEventListener('click', async () => {
-  if (!fullTranscript.trim()) return;
+if (testSpeechBtn) {
+  testSpeechBtn.addEventListener('click', async () => {
+    if (!fullTranscript.trim()) return;
 
-  const stats = analyzeSpeech(fullTranscript, secElapsed, confidenceScore);
+    const stats = analyzeSpeech(fullTranscript, secElapsed, confidenceScore);
 
-  // Update UI Elements
-  const resultsCard = document.getElementById('resultsCard');
-  if (resultsCard) resultsCard.classList.remove('hidden');
+    //Update UI Elements
+    const resultsCard = document.getElementById('resultsCard');
+    if (resultsCard) resultsCard.classList.remove('hidden');
 
-  document.getElementById('wpmValue').innerHTML = `${stats.wpm} <span class="unit">WPM</span>`;
-  document.getElementById('clarityValue').textContent = `${stats.clarityScore}%`;
-  document.getElementById('pronunciationValue').textContent = `${stats.pronunciationScore}%`;
-  document.getElementById('fillerValue').textContent = stats.fillerCount;
+    const wpmEl = document.getElementById('wpmValue');
+     const clarityEl = document.getElementById('clarityValue');
+    const pronunciationEl = document.getElementById('pronunciationValue');
+    const fillerEl = document.getElementById('fillerValue');
 
-  // Save to Supabase
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    const { error } = await supabase.from('speech_logs').insert([{
-      user_id: user.id,
-      transcript: fullTranscript,
-      filler_count: stats.fillerCount
-    }]);
+      if (wpmEl) wpmEl.innerHTML = `${stats.wpm} <span class="unit">WPM</span>`;
+      if (clarityEl) clarityEl.textContent = `${stats.clarityScore}%`;
+    if (pronunciationEl) pronunciationEl.textContent = `${stats.pronunciationScore}%`;
+    if (fillerEl) fillerEl.textContent = stats.fillerCount;
 
-    if (!error) {
-      alert('Analysis Complete & Saved to Database!');
+    // Save to Supabase
+
+
+   const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+        const { error } = await supabase.from('speech_logs').insert([{
+          user_id: user.id,
+          transcript: fullTranscript,
+          filler_count: stats.fillerCount,
+          wpm: stats.wpm,
+          clarity: stats.clarityScore,
+          pronunciation: stats.pronunciationScore
+      }]);
+
+      if (!error) {
+          alert('Analysis Complete & Saved to Database!');
+      } else {
+         console.error('Database Error:', error.message);
+      }
     }
-  }
-});
+  });
+}

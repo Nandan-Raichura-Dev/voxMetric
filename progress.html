@@ -13,7 +13,7 @@
     <div class="header-container">
       <a href="#" class="logo">
         <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><!--used this code from the website to make the app logo-->
+          <svg viewBox="0 0 24 24">
             <path d="M12 3v18M8 6v12M4 9v6M16 6v12M20 9v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
         </div>
@@ -32,7 +32,6 @@
   <main class="main-content">
     <div class="progress-container">
 
-      
       <div class="page-header">
         <h1 class="page-title">Progress & Analytics</h1>
         <p class="page-subtitle">Track your daily speech consistency and personal improvement.</p>
@@ -40,106 +39,66 @@
 
       <div class="streak-hero-card">
         <div class="streak-left">
-        
           <div>
-            <div class="streak-count">5 <span class="streak-unit">Days Streak</span></div>
-                <p class="streak-desc">You are on a roll! Keep practicing daily to maintain your momentum.</p>
+            <div id="totalSpeeches" class="streak-count">0 <span class="streak-unit">Speeches Logged</span></div>
+            <p class="streak-desc">Keep practicing daily to maintain your momentum!</p>
           </div>
-    </div>
+        </div>
 
-     <div class="streak-right-stats">
-            <div class="mini-stat">
-                <span class="stat-label">Best Streak</span>
-                <span class="stat-num">12 Days</span>
-          </div>
-          <div class="stat-divider"></div>
-          
+        <div class="streak-right-stats">
           <div class="mini-stat">
-                <span class="stat-label">Total Spoken</span>
-                <span class="stat-num">142 Mins</span>
+            <span class="stat-label">Total Fillers</span>
+            <span id="totalFillers" class="stat-num">0</span>
           </div>
         </div>
       </div>
 
-      <!-- weekly chheck in -->
+      <!-- Weekly Check In -->
       <div class="content-card">
         <div class="card-title-row">
           <h2 class="card-heading">Weekly Consistency</h2>
-          <span class="status-badge">5 / 7 Days Done</span>
+          <span class="status-badge">Live Tracking</span>
         </div>
 
         <div class="week-days-row">
-           <div class="day-box active">
-            <span class="day-label">Mon</span>
-            <span class="day-icon">✓</span>
-          </div>
-          <div class="day-box active">
-            <span class="day-label">Tue</span>
-            <span class="day-icon">✓</span>
-          </div>
-         <div class="day-box active">
-            <span class="day-label">Wed</span>
-            <span class="day-icon">✓</span>
-          </div>
-           <div class="day-box active">
-            <span class="day-label">Thu</span>
-            <span class="day-icon">✓</span>
-           </div>
-          <div class="day-box active today">
-        <span class="day-label">Fri</span>
-        <span class="day-icon">★</span>
-           </div>
-         <div class="day-box">
-            <span class="day-label">Sat</span>
-            <span class="day-icon">•</span>
-          </div>
-          <div class="day-box">
-            <span class="day-label">Sun</span>
-            <span class="day-icon">•</span>
-          </div>
+          <div class="day-box active"><span class="day-label">Mon</span><span class="day-icon">✓</span></div>
+          <div class="day-box active"><span class="day-label">Tue</span><span class="day-icon">✓</span></div>
+          <div class="day-box active"><span class="day-label">Wed</span><span class="day-icon">✓</span></div>
+          <div class="day-box active"><span class="day-label">Thu</span><span class="day-icon">✓</span></div>
+          <div class="day-box active today"><span class="day-label">Fri</span><span class="day-icon">★</span></div>
+          <div class="day-box"><span class="day-label">Sat</span><span class="day-icon">•</span></div>
+          <div class="day-box"><span class="day-label">Sun</span><span class="day-icon">•</span></div>
         </div>
       </div>
 
-      <!--  other anylatics-->
+      <!-- Analytics Grid -->
       <div class="analytics-grid">
-
-          <!-- R1-->
+        <!-- Average Speed -->
         <div class="report-card">
           <div class="report-header">
             <span class="report-title">Average Speed</span>
-         </div>
-          <div class="report-value">138 <span class="unit">WPM</span></div>
-          <div class="progress-track"  ><!--for future usee-->
           </div>
+          <div id="avgWpm" class="report-value">0 <span class="unit">WPM</span></div>
           <span class="report-note">Optimal range is 130–150 WPM</span>
         </div>
 
-        <!-- R2-->
+        <!-- Speech Clarity -->
         <div class="report-card">
           <div class="report-header">
             <span class="report-title">Speech Clarity</span>
-       
           </div>
-          <div class="report-value">88%</div>
-          <div class="progress-track">
-            
-          </div>
-          <span class="report-note">+4% improvement from last week</span>
+          <div id="avgClarity" class="report-value">0%</div>
+          <span class="report-note">Calculated from filler word ratio</span>
         </div>
 
-          <!-- R3-->
+        <!-- Pronunciation -->
         <div class="report-card">
           <div class="report-header">
-            <span class="report-title">Filler Word Reduction</span>
-       
+            <span class="report-title">Pronunciation Accuracy</span>
           </div>
-          <div class="report-value">92%</div>
-          <div class="progress-track">
-            
-          </div>
-          <span class="report-note">Minimal "um" and "uh" detected</span>
+          <div id="avgPronunciation" class="report-value">0%</div>
+          <span class="report-note">Based on voice recognition engine confidence</span>
         </div>
-
       </div>
 
     </div>
@@ -156,6 +115,48 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!--d Progres Fetcher -->
+  <script type="module">
+    import { supabase } from './supabase-client.js';
+
+    async function loadUserProgress() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      // fetch user speech logs from Supabase
+      const { data: logs, error } = await supabase
+        .from('speech_logs')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (error || !logs || logs.length === 0) return;
+
+      // Calculate averages
+      const total = logs.length;
+      let sumWpm = 0;
+      let sumClarity = 0;
+      let sumPronunciation = 0;
+      let sumFillers = 0;
+
+      logs.forEach(log => {
+        sumWpm += log.wpm || 0;
+        sumClarity += log.clarity || 0;
+        sumPronunciation += log.pronunciation || 0;
+        sumFillers += log.filler_count || 0;
+      });
+
+      // updating ui elements dynamically
+      document.getElementById('totalSpeeches').innerHTML = `${total} <span class="streak-unit">Speeches Logged</span>`;
+      document.getElementById('totalFillers').textContent = sumFillers;
+      document.getElementById('avgWpm').innerHTML = `${Math.round(sumWpm / total)} <span class="unit">WPM</span>`;
+      document.getElementById('avgClarity').textContent = `${Math.round(sumClarity / total)}%`;
+      document.getElementById('avgPronunciation').textContent = `${Math.round(sumPronunciation / total)}%`;
+    }
+
+    loadUserProgress();
+  </script>
 </body>
 </html>
