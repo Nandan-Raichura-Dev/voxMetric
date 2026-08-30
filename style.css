@@ -1087,6 +1087,79 @@ test-speech-btn:not(:disabled):hover {
   }
 }
 
+/* history */
+/* Layout & Container */
+.history-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Individual h card */
+.history-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.item-timestamp {
+  font-weight: 600;
+  color: #818cf8;
+}
+
+.item-fillers strong {
+  color: #fff;
+}
+
+.item-transcript {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.item-metrics {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.metric-pill strong {
+  color: #fff;
+}
+
+/* it is empty */
+.empty-state {
+  text-align: center;
+  padding: 24px 10px;
+}
+
+.empty-text {
+  margin-bottom: 14px;
+  color: #94a3b8;
+}
+
+
 
 @media (max-width: 768px) {
   .footer-grid {
