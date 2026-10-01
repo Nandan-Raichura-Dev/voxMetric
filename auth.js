@@ -6,12 +6,12 @@ const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 const authNotice = document.getElementById('authNotice');
 
-// redirect if already login 
+// redirect if already login
 
 async function checkExistingUser(){
     const {data} = await supabase.auth.getSession();
 
-    // if user has a actve session i will send it to main paage
+    // if user has a actve session i will send it to main paageee
 
     if(data.session){
         window.location.href = 'index.html';
