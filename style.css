@@ -1159,6 +1159,30 @@ test-speech-btn:not(:disabled):hover {
   color: #94a3b8;
 }
 
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  padding-right: 38rem;
+}
+
+.footer-links a {
+  font-size: 1rem;
+
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+
+
 
 
 @media (max-width: 768px) {
